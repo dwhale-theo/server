@@ -37,6 +37,13 @@ jobs:
         run: |
           cp sercver/build/dto/dto.d.ts web/
 
+      - name: Navigate to Target Repository Directory
+        run: |
+          cd target
+          echo "Current working directory: $PWD"
+          git config --get remote.origin.url
+
+          
       - name: Commit and Push Changes to Target Repository
         uses: EndBug/add-and-commit@v7
         with:
