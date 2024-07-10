@@ -10,12 +10,12 @@ jobs:
 
     steps:
       - name: Checkout Server Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: 'sercver'
 
       - name: Set up JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'adopt'
@@ -26,35 +26,33 @@ jobs:
           ./gradlew generateDto
 
       - name: Checkout Web Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: 'dwhale-theo/web'
           token: ${{ secrets.TARGET_REPO_TOKEN }}
           path: 'web'
-          ref: 'new-feature-branch'
+          ref: 'new-feature-branch2'
+          fetch-depth: 0            
 
       - name: Copy DTO File to Target Repository
         run: |
           cp sercver/build/dto/dto.d.ts web/
 
+      - name: Navigate to Target Repository Directory
+        run: |
+          cd web
+          echo "Current working directory: $PWD"
+          git config --get remote.origin.url
+
+          
       - name: Commit and Push Changes to Target Repository
         uses: EndBug/add-and-commit@v7
         with:
           cwd: 'web'
           add: 'dto.d.ts'
           message: 'Update DTO definitions'
-          branch: 'new-feature-branch'
+          branch: 'new-feature-branch2'
         env:
           GITHUB_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.TARGET_REPO_TOKEN }}
-          branch: 'new-feature-branch'
-          title: 'Update DTO Definitions'
-          body: 'Please review the updated DTO definitions.'
-          base: 'main'
-          signoff: false
-          delete_branch: false
-          draft: false
+      
