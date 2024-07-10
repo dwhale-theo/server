@@ -39,7 +39,7 @@ jobs:
 
       - name: Navigate to Target Repository Directory
         run: |
-          cd target
+          cd web
           echo "Current working directory: $PWD"
           git config --get remote.origin.url
 
