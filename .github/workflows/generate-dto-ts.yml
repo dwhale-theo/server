@@ -31,12 +31,12 @@ jobs:
           repository: 'dwhale-theo/web'
           token: ${{ secrets.TARGET_REPO_TOKEN }}
           path: 'web'
-          ref: 'new-feature-branch'
+          ref: 'new-feature-branch2'
           fetch-depth: 0            
 
       - name: Copy DTO File to Target Repository
         run: |
-          cp sercver/build/dto/dto.d.ts ./web/
+          cp sercver/build/dto/dto.d.ts web/
 
       - name: Navigate to Target Repository Directory
         run: |
@@ -51,40 +51,8 @@ jobs:
           cwd: 'web'
           add: 'dto.d.ts'
           message: 'Update DTO definitions'
-          branch: 'new-feature-branch'
+          branch: 'new-feature-branch2'
         env:
           GITHUB_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
-      - name: Create or Update Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.TARGET_REPO_TOKEN }}
-          commit-message: 'Update data file'
-          title: 'Update Data File'
-          body: 'Automated changes by create-pull-request action'
-          branch: 'new-feature-branch'
-          base: 'main'
-
-      - name: Navigate to Repository Directory
-        run: |
-          cd web
-          pwd
-          git config --get remote.origin.url
       
-      - name: Checkout Web Repository
-        uses: actions/checkout@v4
-        with:
-          repository: 'dwhale-theo/web'
-          token: ${{ secrets.TARGET_REPO_TOKEN }}
-          path: 'web'
-          ref: 'new-feature-branch'
-          fetch-depth: 0    
-          
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.TARGET_REPO_TOKEN }}
-          branch: 'new-feature-branch'
-          title: 'Update DTO Definitions'
-          body: 'Please review the updated DTO definitions.'
-          base: 'main'
