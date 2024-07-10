@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 public class Clap {
 
     private String id;
+    private int price;
     public String name;
+    public String description;
     public String image;
     public String QR;
 }
