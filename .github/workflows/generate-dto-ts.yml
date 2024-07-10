@@ -48,6 +48,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
+      - name: Debugging Git Context and Remote URL
+        run: |
+          cd web
+          pwd
+          git status
+          git remote -v  # 원격 저장소 URL 재확인
+
       - name: Create Pull Request
         uses: devops-infra/action-pull-request@v0.5.5
         with:
