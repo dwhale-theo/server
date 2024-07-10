@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Server Repository
         uses: actions/checkout@v4
         with:
-          path: 'sercver'
+          path: 'server'
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -22,7 +22,7 @@ jobs:
 
       - name: Generate dto.ts
         run: |
-          cd sercver
+          cd server
           ./gradlew generateDto
 
       - name: Checkout Web Repository
@@ -32,11 +32,11 @@ jobs:
           token: ${{ secrets.TARGET_REPO_TOKEN }}
           path: 'web'
           ref: 'dtopr'
-          fetch-depth: 0          
+          fetch-depth: 0
 
       - name: Copy DTO File to Target Repository
         run: |
-          cp sercver/build/dto/dto.d.ts web/
+          cp server/build/dto/dto.d.ts web/
 
       - name: Commit and Push Changes to Target Repository
         uses: EndBug/add-and-commit@v7
