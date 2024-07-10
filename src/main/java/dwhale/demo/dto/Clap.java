@@ -16,4 +16,5 @@ public class Clap {
     public String QR;
     public String image;
     public String link;
+    public String categoty;
 }
