@@ -70,7 +70,16 @@ jobs:
           cd web
           pwd
           git config --get remote.origin.url
-
+      
+      - name: Checkout Web Repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'dwhale-theo/web'
+          token: ${{ secrets.TARGET_REPO_TOKEN }}
+          path: 'web'
+          ref: 'new-feature-branch'
+          fetch-depth: 0    
+          
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
