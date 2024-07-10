@@ -31,6 +31,7 @@ jobs:
           repository: 'dwhale-theo/web'
           token: ${{ secrets.TARGET_REPO_TOKEN }}
           path: 'web'
+          ref: 'new-feature-branch'
 
       - name: Copy DTO File to Target Repository
         run: |
@@ -54,3 +55,6 @@ jobs:
           title: 'Update DTO Definitions'
           body: 'Please review the updated DTO definitions.'
           base: 'main'
+          signoff: false
+          delete_branch: false
+          draft: false
