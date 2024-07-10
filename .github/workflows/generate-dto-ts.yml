@@ -1,0 +1,56 @@
+name: generate-dto-ts
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  upload-and-create-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Server Repository
+        uses: actions/checkout@v2
+        with:
+          path: 'sercver'
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+
+      - name: Generate dto.ts
+        run: |
+          cd sercver
+          ./gradlew generateDto
+
+      - name: Checkout Web Repository
+        uses: actions/checkout@v2
+        with:
+          repository: 'dwhale-theo/web'
+          token: ${{ secrets.TARGET_REPO_TOKEN }}
+          path: 'web'
+
+      - name: Copy DTO File to Target Repository
+        run: |
+          cp sercver/build/dto/dto.d.ts web/
+
+      - name: Commit and Push Changes to Target Repository
+        uses: EndBug/add-and-commit@v7
+        with:
+          cwd: 'web'
+          add: 'dto.d.ts'
+          message: 'Update DTO definitions'
+          branch: 'new-feature-branch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.TARGET_REPO_TOKEN }}
+          branch: 'new-feature-branch'
+          title: 'Update DTO Definitions'
+          body: 'Please review the updated DTO definitions.'
+          base: 'main'
