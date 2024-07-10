@@ -31,7 +31,7 @@ jobs:
           repository: 'dwhale-theo/web'
           token: ${{ secrets.TARGET_REPO_TOKEN }}
           path: 'web'
-          ref: 'new-feature-branch2'
+          ref: 'new-feature-branch3'
           fetch-depth: 0          
 
       - name: Copy DTO File to Target Repository
@@ -44,7 +44,7 @@ jobs:
           cwd: 'web'
           add: 'dto.d.ts'
           message: 'Update DTO definitions'
-          branch: 'new-feature-branch2'
+          branch: 'new-feature-branch3'
         env:
           GITHUB_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
