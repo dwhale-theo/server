@@ -13,5 +13,6 @@ public class Clap {
     private int price;
     public String name;
     public String description;
-    public String categoty;
+    public String image;
+    public String email;
 }
