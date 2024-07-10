@@ -9,12 +9,13 @@ jobs:
   create_pull_request:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout new-feature-branch2
         uses: actions/checkout@v4
         with:
           repository: dwhale-theo/web
           ref: new-feature-branch2
           token: ${{ secrets.TARGET_REPO_TOKEN }}
+          fetch-depth: 0 # 모든 이력을 가져오기 위해 fetch-depth를 0으로 설정
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
@@ -22,8 +23,8 @@ jobs:
           token: ${{ secrets.TARGET_REPO_TOKEN }}
           commit-message: "Auto-update Main Branch"
           title: "Merge PR into Main"
-          body: "This is an automated pull request to update the main branch with changes from PR."
-          branch: new-feature-branch2
-          base: main
-          delete-branch: false
-          draft: false
+          body: "This is an automated pull request to update the main branch with changes from new-feature-branch2."
+          branch: new-feature-branch2 # PR을 업데이트하거나 새로 생성할 브랜치
+          base: main # PR의 목표 브랜치
+          delete-branch: false # PR 머지 후 브랜치 삭제 여부
+          draft: false # PR을 드래프트로 생성할지 여부
