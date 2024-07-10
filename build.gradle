@@ -1,8 +1,53 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'cz.habarta.typescript-generator', name: 'typescript-generator-gradle-plugin', version: '2.36.1070'
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.7'
     id 'io.spring.dependency-management' version '1.1.5'
 }
+
+apply plugin: 'cz.habarta.typescript-generator'
+
+generateTypeScript {
+    jsonLibrary = 'jackson2'
+    classPatterns = [
+            'dwhale.demo.dto.**'
+    ]
+    excludeClassPatterns = [
+            'dwhale.demo.dto.**$*Builder',
+            'dwhale.demo.dto.**$*BuilderImpl'
+    ]
+    outputFile = 'build/dto.d.ts'
+    outputKind = 'global'
+    optionalProperties = 'useSpecifiedAnnotations'
+    optionalPropertiesDeclaration = 'nullableType'
+    optionalAnnotations = [
+            'javax.annotation.Nullable'
+    ]
+    noFileComment = true
+}
+
+tasks.register("generateDto") {
+    dependsOn("generateTypeScript")
+    doLast {
+        copy {
+            from file('build/dto.d.ts')
+            into file('build/dto')
+            filter { String line ->
+                line.startsWith('interface') || line.startsWith('type') ? "export " + line : line
+            }
+
+        }
+    }
+}
+
 
 group = 'dwhale'
 version = '0.0.1-SNAPSHOT'
