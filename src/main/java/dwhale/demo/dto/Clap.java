@@ -8,10 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class Clap {
-
-    public String name;
-    public String description;
-    public String image;
     public String email;
     public String link;
     public String categoty;
