@@ -30,12 +30,12 @@ jobs:
         with:
           repository: 'dwhale-theo/web'
           token: ${{ secrets.TARGET_REPO_TOKEN }}
-          path: 'web'
+          path: './web'
           ref: 'new-feature-branch'
 
       - name: Copy DTO File to Target Repository
         run: |
-          cp sercver/build/dto/dto.d.ts web/
+          cp sercver/build/dto/dto.d.ts ./web/
 
       - name: Navigate to Target Repository Directory
         run: |
@@ -53,6 +53,16 @@ jobs:
           branch: 'new-feature-branch'
         env:
           GITHUB_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+
+      - name: Create or Update Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.TARGET_REPO_TOKEN }}
+          commit-message: 'Update data file'
+          title: 'Update Data File'
+          body: 'Automated changes by create-pull-request action'
+          branch: 'new-feature-branch'
+          base: 'main'
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
