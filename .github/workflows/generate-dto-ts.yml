@@ -36,7 +36,7 @@ jobs:
 
       - name: Copy DTO File to Target Repository
         run: |
-          cp server/build/dto/dto.d.ts web/
+          cp server/build/dto/dto.d.ts web/dto/
 
       - name: Commit and Push Changes to Target Repository
         uses: EndBug/add-and-commit@v7
