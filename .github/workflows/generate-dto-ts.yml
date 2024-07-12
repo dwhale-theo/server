@@ -36,6 +36,7 @@ jobs:
 
       - name: Copy DTO File to Target Repository
         run: |
+          mkdir -p web/dto/
           cp server/build/dto/dto.d.ts web/dto/
 
       - name: Commit and Push Changes to Target Repository
