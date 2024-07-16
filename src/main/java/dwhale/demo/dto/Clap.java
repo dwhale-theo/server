@@ -12,4 +12,6 @@ public class Clap {
     public String link;
     public String categoty;
     public String name;
+    public String description;
+    public String image;
 }
