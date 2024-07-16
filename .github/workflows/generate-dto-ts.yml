@@ -28,7 +28,7 @@ jobs:
       - name: Checkout Web Repository
         uses: actions/checkout@v4
         with:
-          repository: 'dwhale-dev/clap-web'
+          repository: 'dwhale-theo/web'
           token: ${{ secrets.TARGET_REPO_TOKEN }}
           path: 'web'
 
