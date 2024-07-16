@@ -28,24 +28,28 @@ jobs:
       - name: Checkout Web Repository
         uses: actions/checkout@v4
         with:
-          repository: 'dwhale-theo/web'
+          repository: 'dwhale-dev/clap-web'
           token: ${{ secrets.TARGET_REPO_TOKEN }}
           path: 'web'
-          ref: 'dtopr'
-          fetch-depth: 0
 
-      - name: Copy DTO File to Target Repository
+      - name: Create and Switch to 'dtopr' Branch
         run: |
-          mkdir -p web/dto/
-          cp server/build/dto/dto.d.ts web/dto/
-          ls -l web/dto/
+          cd web
+          git fetch
+          git checkout -b dtopr origin/dtopr || git checkout -b dtopr
+          git push --set-upstream origin dtopr
 
-      - name: Commit and Push Changes to Target Repository
+      - name: Copy DTO File to Web Repository
+        run: |
+          mkdir -p web/types/
+          cp server/build/dto/dto.ts web/types/
+
+      - name: Commit and Push DTO to Web Repository
         uses: EndBug/add-and-commit@v7
         with:
-          cwd: 'web/dto/'
-          add: 'dto.d.ts'
-          message: 'Update DTO definitions'
+          cwd: 'web/types/'
+          add: 'dto.ts'
+          message: '[TechDebt] dto 파일 최신화'
           branch: 'dtopr'
         env:
           GITHUB_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}

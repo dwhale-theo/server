@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'cz.habarta.typescript-generator', name: 'typescript-generator-gradle-plugin', version: '2.36.1070'
+        classpath group: 'cz.habarta.typescript-generator', name: 'typescript-generator-gradle-plugin', version: '3.2.1263'
     }
 }
 
@@ -24,8 +24,9 @@ generateTypeScript {
             'dwhale.demo.dto.**$*Builder',
             'dwhale.demo.dto.**$*BuilderImpl'
     ]
-    outputFile = 'build/dto.d.ts'
+    outputFile = 'build/dto.ts'  // 실행 가능한 TypeScript 코드 파일
     outputKind = 'global'
+    outputFileType = cz.habarta.typescript.generator.TypeScriptFileType.implementationFile
     optionalProperties = 'useSpecifiedAnnotations'
     optionalPropertiesDeclaration = 'nullableType'
     optionalAnnotations = [
@@ -38,7 +39,7 @@ tasks.register("generateDto") {
     dependsOn("generateTypeScript")
     doLast {
         copy {
-            from file('build/dto.d.ts')
+            from file('build/dto.ts')
             into file('build/dto')
             filter { String line ->
                 line.startsWith('interface') || line.startsWith('type') ? "export " + line : line
