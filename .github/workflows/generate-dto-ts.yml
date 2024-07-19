@@ -51,7 +51,8 @@ jobs:
 
       - name: Create Prettier Config
         run: |
-          echo "module.exports = ${JSON.stringify({
+          cat <<EOF > web/.prettierrc.js
+          module.exports = {
             printWidth: 120,
             bracketSpacing: true,
             endOfLine: "auto",
@@ -60,7 +61,8 @@ jobs:
             trailingComma: "es5",
             tabWidth: 2,
             useTabs: false,
-          }, null, 2)};" > web/.prettierrc.js
+          };
+          EOF
 
       - name: Install Prettier
         run: |
