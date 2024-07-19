@@ -49,29 +49,10 @@ jobs:
           mkdir -p web/types/
           cp server/build/dto/dto.ts web/types/
 
-      - name: Create Prettier Config
-        run: |
-          cat <<EOF > web/.prettierrc.js
-          module.exports = {
-            printWidth: 120,
-            bracketSpacing: true,
-            endOfLine: "auto",
-            semi: true,
-            singleQuote: false,
-            trailingComma: "es5",
-            tabWidth: 2,
-            useTabs: false,
-          };
-          EOF
-
-      - name: Install Prettier
+      - name: Install Prettier And Run
         run: |
           cd web
           npm install --save-dev prettier
-
-      - name: Run Prettier
-        run: |
-          cd web
           npx prettier --write types/dto.ts
 
       - name: Commit and Push DTO to Web Repository

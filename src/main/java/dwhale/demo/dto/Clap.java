@@ -15,4 +15,5 @@ public class Clap {
     public String phone;
     public String address;
     public int age;
+    public int money;
 }
