@@ -9,4 +9,10 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Clap {
     public String email;
+    public String password;
+    public String name;
+    public String nickname;
+    public String phone;
+    public String address;
+    public int age;
 }

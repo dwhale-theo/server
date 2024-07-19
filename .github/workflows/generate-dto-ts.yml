@@ -25,6 +25,11 @@ jobs:
           cd server
           ./gradlew generateDto
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
       - name: Checkout Web Repository
         uses: actions/checkout@v4
         with:
@@ -43,6 +48,29 @@ jobs:
         run: |
           mkdir -p web/types/
           cp server/build/dto/dto.ts web/types/
+
+      - name: Create Prettier Config
+        run: |
+          echo "module.exports = ${JSON.stringify({
+            printWidth: 120,
+            bracketSpacing: true,
+            endOfLine: "auto",
+            semi: true,
+            singleQuote: false,
+            trailingComma: "es5",
+            tabWidth: 2,
+            useTabs: false,
+          }, null, 2)};" > web/.prettierrc.js
+
+      - name: Install Prettier
+        run: |
+          cd web
+          npm install --save-dev prettier
+
+      - name: Run Prettier
+        run: |
+          cd web
+          npx prettier --write types/dto.ts
 
       - name: Commit and Push DTO to Web Repository
         uses: EndBug/add-and-commit@v7
